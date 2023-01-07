@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CarouselModule } from '@coreui/angular';
 import { FooterComponent } from '../components/footer/footer.component';
+import { HeaderComponent } from '../components/header/header.component';
 import { HeroComponent } from '../components/hero/hero.component';
 import { ItemComponent } from '../components/products/item/item.component';
 import { ProductsComponent } from '../components/products/products.component';
@@ -17,6 +18,7 @@ import { HomeComponent } from './home.component';
         ItemComponent,
         LandingComponent,
         FooterComponent,
+        HeaderComponent,
     ],
     imports: [
         CommonModule,

@@ -1,7 +1,7 @@
 <c-carousel [dark]="true" (itemChange)="onItemChange($event)" [interval]="5000" transition="slide">
     <c-carousel-inner>
         <c-carousel-item *ngFor="let slide of slides">
-            <img [src]="slide.src" alt="{{ slide.title }}" class="block max-w-[1104px] h-96" loading="eager" />
+            <img [src]="slide.src" alt="{{ slide.title }}" class="block w-full h-96" loading="eager" />
             <c-carousel-caption>
                 <h3>{{slide.title}}</h3>
                 <p>{{slide.subtitle}}</p>
