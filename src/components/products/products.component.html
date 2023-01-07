@@ -1,1 +1,20 @@
-<p>products works!</p>
+<div class="relative grid mb-8 max-w-[1104px] mx-auto">
+    <h3 class="self-center mb-0 justify-self-center">{{ heading }}</h3>
+    <a class="absolute justify-self-end self-center text-[#134A6C] no-underline">
+        See all >
+    </a>
+</div>
+
+<c-carousel [dark]="true" [interval]="0" transition="slide">
+    <c-carousel-inner>
+        <c-carousel-item *ngFor="let chunk of productsChunk">
+            <div class="flex justify-center">
+                <div class="flex gap-x-4">
+                    <item *ngFor="let product of chunk" [product]="product"></item>
+                </div>
+            </div>
+        </c-carousel-item>
+    </c-carousel-inner>
+    <c-carousel-control [routerLink] caption="Previous" direction="prev" class="previous"></c-carousel-control>
+    <c-carousel-control [routerLink] caption="Next" direction="next" class="next"></c-carousel-control>
+</c-carousel>

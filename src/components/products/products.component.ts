@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Product } from '../../models/product';
 
 @Component({
-  selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.scss']
+    selector: 'products',
+    templateUrl: './products.component.html',
+    styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
+    @Input() heading = '';
+    @Input() products: Product[] = [];
+    productsChunk: Product[][] = [];
 
-  constructor() { }
+    constructor() {}
 
-  ngOnInit(): void {
-  }
-
+    ngOnInit(): void {
+        const copiedProducts = [...this.products]
+        while(copiedProducts.length > 0) {
+            this.productsChunk.push(copiedProducts.splice(0, 4));
+        }
+    }
 }

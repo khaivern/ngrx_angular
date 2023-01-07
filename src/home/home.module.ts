@@ -1,12 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HeroComponent } from '../components/hero/hero.component';
-import { ProductsComponent } from '../components/products/products.component';
-import { ItemComponent } from '../components/products/item/item.component';
-import { HomeComponent } from './home.component';
 import { CarouselModule } from '@coreui/angular';
-
+import { FooterComponent } from '../components/footer/footer.component';
+import { HeroComponent } from '../components/hero/hero.component';
+import { ItemComponent } from '../components/products/item/item.component';
+import { ProductsComponent } from '../components/products/products.component';
+import { LandingComponent } from '../pages/landing/landing.component';
+import { HomeComponent } from './home.component';
 
 @NgModule({
     declarations: [
@@ -14,6 +15,8 @@ import { CarouselModule } from '@coreui/angular';
         HeroComponent,
         ProductsComponent,
         ItemComponent,
+        LandingComponent,
+        FooterComponent,
     ],
     imports: [
         CommonModule,
@@ -21,9 +24,13 @@ import { CarouselModule } from '@coreui/angular';
             {
                 path: '',
                 component: HomeComponent,
+                children: [
+                    { path: '', pathMatch: 'full', redirectTo: 'landing' },
+                    { path: 'landing', component: LandingComponent },
+                ],
             },
         ]),
-        CarouselModule
+        CarouselModule,
     ],
     exports: [RouterModule],
 })
