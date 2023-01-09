@@ -1,35 +1,45 @@
 <main class="max-w-[1104px] mx-auto py-[24px]">
     <a routerLink="/" class="no-underline text-[#C6C6C6] text-xl leading-[25px] mb-[32px] inline-block">Back</a>
 
-    <section class="grid grid-cols-9 mb-[24px]">
+    <section class="grid grid-cols-9 mb-[24px]" *ngIf="(product$ | async) as product">
+
+        <!-- * Left part of section -->
         <div class="col-span-7 gap-y-[24px] flex flex-col">
+
+            <!-- * Top Container -->
             <div class="px-[32px] pt-[32px] pb-[64px] border rounded-md border-[#C6C6C6]">
                 <div class="grid grid-cols-12 gap-x-[32px]">
                     <div class="flex flex-col col-span-5 gap-y-[16px]">
-                        <img src="https://via.placeholder.com/308x208?text=Big Food" alt="Big Food"
+                        <img [src]="product.src" alt="Big Food"
                             class="block max-w-[308px]" />
                     </div>
                     <div class="flex flex-col col-span-7">
-                        <span class="text-[24px] leading-[30px] mb-[24px]">HF22 Fried Wanton / Wanton Goreng</span>
+                        <span class="text-[24px] leading-[30px] mb-[24px]">{{ product.title }}</span>
                         <span class="text-[20px] leading-[29px] mb-[32px]">12pxs/pkt</span>
                         <div class="flex items-center text-[32px] leading-[40px] gap-x-4 mb-[32px]">
-                            <span class="line-through text-[#C6C6C6]">RM 17.00</span>
-                            <span class="text-black">RM 8.50</span>
-                            <div class="bg-[#CE1C75] px-[16px] py-[3px] text-white text-[20px] leading-[25px]">50% OFF
+                            <span class="line-through text-[#C6C6C6]">RM {{ product.price | number: '.2-2' }}</span>
+                            <span class="text-black">
+                                RM {{ product.price * (100 - product.discount) / 100 | number: '.2-2'}}
+                            </span>
+                            <div class="bg-[#CE1C75] px-[16px] py-[3px] text-white text-[20px] leading-[25px]">
+                                {{ product.discount }}% OFF
                             </div>
                         </div>
                         <div class="h-[1px] bg-[#C6C6C6] mb-[33px]"></div>
 
-                        <form class="flex flex-col gap-y-4">
+                        <!-- * Edit Form -->
+                        <form class="flex flex-col gap-y-4" (submit)="handleEdit()" [formGroup]="editForm">
                             <h2>*Edit Product</h2>
-                            <input type="text" cFormControl sizing="lg" placeholder="Title">
-                            <input type="number" cFormControl sizing="lg" placeholder="Price">
-                            <input type="number" cFormControl sizing="lg" placeholder="Discount">
-                            <button cButton size="lg" class="text-white">Save</button>
+                            <input type="text" cFormControl sizing="lg" placeholder="Title" formControlName="title">
+                            <input type="number" cFormControl sizing="lg" placeholder="Price" formControlName="price">
+                            <input type="number" cFormControl sizing="lg" placeholder="Discount" formControlName="discount">
+                            <button type="submit" cButton size="lg" class="text-white">Save</button>
                         </form>
                     </div>
                 </div>
             </div>
+
+            <!-- * Stock Up mini banner -->
             <div class="flex h-[52px] gradient-container items-center pl-[50px] pr-[16px] justify-between">
                 <span class="text-[#D52662] font-black text-[17px] leading-[23px]">STOCK UP FOR CNY!</span>
                 <img src="https://via.placeholder.com/178x52?text=Food" alt="Food" class="block max-w-[178px]" />
@@ -38,16 +48,19 @@
                     HUAT NOW >
                 </button>
             </div>
+
+            <!-- * Bottom container -->
             <div class="px-[32px] pt-[32px] pb-[64px] border rounded-md border-[#C6C6C6]">
-                <form class="flex flex-col gap-y-4 max-w-[500px] mx-auto">
+
+                <!-- * Create Form -->
+                <form class="flex flex-col gap-y-4 max-w-[500px] mx-auto" (submit)="handleCreate()" [formGroup]="createForm">
                     <h2>*Create Product</h2>
-                    <input type="text" cFormControl sizing="lg" placeholder="Title">
-                    <input type="number" cFormControl sizing="lg" placeholder="Price">
-                    <input type="number" cFormControl sizing="lg" placeholder="Discount">
-                    <button cButton color="success" size="lg" class="text-white">Save</button>
+                    <input type="text" cFormControl sizing="lg" placeholder="Title" formControlName="title">
+                    <input type="number" cFormControl sizing="lg" placeholder="Price" formControlName="price">
+                    <input type="number" cFormControl sizing="lg" placeholder="Discount" formControlName="discount">
+                    <button type="submit" cButton color="success" size="lg" class="text-white">Save</button>
                 </form>
             </div>
         </div>
-        <div class="col-span-2"></div>
     </section>
 </main>

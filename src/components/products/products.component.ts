@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { Product } from '../../models/product';
 
 @Component({
@@ -6,17 +7,7 @@ import { Product } from '../../models/product';
     templateUrl: './products.component.html',
     styleUrls: ['./products.component.scss'],
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent {
     @Input() heading = '';
-    @Input() products: Product[] = [];
-    productsChunk: Product[][] = [];
-
-    constructor() {}
-
-    ngOnInit(): void {
-        const copiedProducts = [...this.products]
-        while(copiedProducts.length > 0) {
-            this.productsChunk.push(copiedProducts.splice(0, 4));
-        }
-    }
+    @Input() products$: Observable<Product[][]> = of([]);
 }

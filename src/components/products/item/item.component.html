@@ -2,7 +2,7 @@
     <img [src]="product.src" alt="{{ product.title }}" class="block max-w-[264px] h-[177px] mb-[8px]" loading="eager" />
     <span class="mb-[12px] leading-10">{{ product.title }}</span>
     <span class="mb-[8px] text-lg leading-[22px] text-[#C6C6C6] line-through">RM{{ product.price }}</span>
-    <div class="flex text-2xl gap-x-1">RM{{ product.price * (product.discount / 100) | number: '.2-2' }}
+    <div class="flex text-2xl gap-x-1">RM{{ product.price * (100 - product.discount ) / 100 | number: '.2-2' }}
         <span class="text-[#CE1C75]">{{ product.discount }}%</span>
     </div>
 </div>

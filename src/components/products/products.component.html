@@ -5,9 +5,9 @@
     </a>
 </div>
 
-<c-carousel [dark]="true" [interval]="0" transition="slide">
+<c-carousel [dark]="true" [interval]="0" transition="slide" *ngIf="(products$ | async) as products; else loading">
     <c-carousel-inner>
-        <c-carousel-item *ngFor="let chunk of productsChunk">
+        <c-carousel-item *ngFor="let chunk of products">
             <div class="flex justify-center">
                 <div class="flex gap-x-4">
                     <item *ngFor="let product of chunk" [product]="product"></item>
@@ -18,3 +18,9 @@
     <c-carousel-control [routerLink] caption="Previous" direction="prev" class="previous"></c-carousel-control>
     <c-carousel-control [routerLink] caption="Next" direction="next" class="next"></c-carousel-control>
 </c-carousel>
+
+<ng-template #loading>
+    <div class="h-[300px] bg-blue-400 border-blue-800 border flex justify-center items-center">
+        <h2 class="italic text-blue-700">Loading...</h2>
+    </div>
+</ng-template>
