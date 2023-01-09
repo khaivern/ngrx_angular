@@ -1,11 +1,13 @@
 # NgrxDemoV1
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.9.
+
 This project has been updated to [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
 
 ## Development server
 
 Run `npm start` for a client server. Navigate to `http://localhost:4200`. The application will automatically reload if you change any of the source files.
+
 Run `npm run server` for a backend server. Navigate to `http://localhost:8000`. The application will handle API calls that begin with /api/<routename>.
 
 ## Code scaffolding
