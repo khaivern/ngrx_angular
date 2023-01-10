@@ -7,6 +7,7 @@ import { ButtonModule, CarouselModule, FormModule } from '@coreui/angular';
 import { FooterComponent } from '../components/footer/footer.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { HeroComponent } from '../components/hero/hero.component';
+import { DeleteService } from '../components/products/item/delete.service';
 import { ItemComponent } from '../components/products/item/item.component';
 import { ProductsComponent } from '../components/products/products.component';
 import { LandingComponent } from '../pages/landing/landing.component';
@@ -44,5 +45,6 @@ import { HomeComponent } from './home.component';
         ReactiveFormsModule,
     ],
     exports: [RouterModule],
+    providers: [DeleteService]
 })
 export class HomeModule {}

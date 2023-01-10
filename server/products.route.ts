@@ -69,3 +69,13 @@ export function createProduct(req: Request, res: Response) {
         return res.status(200).json({ result: newProduct });
     }, delay);
 }
+
+export function deleteProductById(req: Request, res: Response) {
+    const id = req.params['id'];
+
+    products = products.filter((product) => product.id !== id);
+
+    return setTimeout(() => {
+        return res.status(200).json({ result: true });
+    }, delay);
+}
