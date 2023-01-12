@@ -1,10 +1,25 @@
-import { isDevMode } from '@angular/core';
-import { ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createReducer, on } from '@ngrx/store';
+import { Product } from '../../../models/product';
+import HomeActions from '../store/home.types';
 
 export const homeFeatureKey = 'home';
 
-export interface HomeState {}
+export interface HomeState extends EntityState<Product> {
+    areProductsLoaded: boolean;
+}
 
-export const reducers: ActionReducerMap<HomeState> = {};
+const homeAdapter = createEntityAdapter<Product>();
 
-export const metaReducers: MetaReducer<HomeState>[] = isDevMode() ? [] : [];
+const initialHomeState = homeAdapter.getInitialState({
+    areProductsLoaded: false,
+});
+
+export const homeReducers = createReducer(
+    initialHomeState,
+    on(HomeActions.allProductsLoaded, (state, { products }) => {
+        return homeAdapter.setAll(products, { ...state, areProductsLoaded: true });
+    })
+);
+
+export const { selectAll } = homeAdapter.getSelectors();

@@ -1,5 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
+import { selectProd } from '../../app/home/store/home.selectors';
+import { AppState } from '../../app/reducers';
 import { Product } from '../../models/product';
 
 @Component({
@@ -7,7 +10,13 @@ import { Product } from '../../models/product';
     templateUrl: './products.component.html',
     styleUrls: ['./products.component.scss'],
 })
-export class ProductsComponent {
+export class ProductsComponent implements OnInit {
     @Input() heading = '';
-    @Input() products$: Observable<Product[][]> = of([]);
+    products$?: Observable<Product[][]> = of([]);
+
+    constructor(private store: Store<AppState>) {}
+
+    ngOnInit(): void {
+        this.products$ = this.store.select(selectProd);
+    }
 }

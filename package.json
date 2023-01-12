@@ -23,6 +23,8 @@
     "@coreui/angular": "^4.3.4",
     "@coreui/coreui": "^4.2.6",
     "@coreui/icons-angular": "^4.3.0",
+    "@ngrx/effects": "^15.1.0",
+    "@ngrx/entity": "^15.1.0",
     "@ngrx/store": "^15.1.0",
     "@ngrx/store-devtools": "^15.1.0",
     "cors": "^2.8.5",

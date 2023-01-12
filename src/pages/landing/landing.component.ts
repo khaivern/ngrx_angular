@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { map, Observable, of } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { filter } from 'rxjs';
+import { selectAreProductsLoaded } from '../../app/home/store/home.selectors';
+import HomeActions from '../../app/home/store/home.types';
+import { AppState } from '../../app/reducers';
 import { DeleteService } from '../../components/products/item/delete.service';
-import { Product } from '../../models/product';
 
 @Component({
     selector: 'landing',
@@ -10,18 +12,16 @@ import { Product } from '../../models/product';
     styleUrls: ['./landing.component.scss'],
 })
 export class LandingComponent implements OnInit {
-    products$: Observable<Product[][]> = of([]);
-
     constructor(
-        private http: HttpClient,
-        private deleteService: DeleteService
+        private deleteService: DeleteService,
+        private store: Store<AppState>
     ) {}
 
     ngOnInit(): void {
         this.fetchProducts();
         this.deleteService.listUpdated$.subscribe(() => {
             this.fetchProducts();
-        })
+        });
 
         // this.products$ = this.deleteService.listUpdated$.pipe(
         //     switchMap(() => {
@@ -31,18 +31,11 @@ export class LandingComponent implements OnInit {
     }
 
     private fetchProducts() {
-        this.products$ = this.http
-            .get<{ result: Product[] }>('http://localhost:8000/api/products')
-            .pipe(
-                map((response) => response.result),
-                map((products) => {
-                    const copiedProducts = [...products];
-                    let productsChunk = [];
-                    while (copiedProducts.length > 0) {
-                        productsChunk.push(copiedProducts.splice(0, 4));
-                    }
-                    return productsChunk;
-                })
-            );
+        this.store
+            .select(selectAreProductsLoaded)
+            .pipe(filter((loaded) => !loaded))
+            .subscribe((_) => {
+                this.store.dispatch(HomeActions.loadProducts());
+            });
     }
 }

@@ -5,19 +5,25 @@
     </a>
 </div>
 
-<c-carousel [dark]="true" [interval]="0" transition="slide" *ngIf="(products$ | async) as products; else loading">
-    <c-carousel-inner>
-        <c-carousel-item *ngFor="let chunk of products">
-            <div class="flex justify-center">
-                <div class="flex gap-x-4">
-                    <item *ngFor="let product of chunk" [product]="product"></item>
+<ng-container *ngIf="(products$ | async) as products">
+    <c-carousel [dark]="true" [interval]="0" transition="slide" *ngIf="products.length > 0; else loading">
+        <c-carousel-inner>
+            <c-carousel-item *ngFor="let chunk of products">
+                <div class="flex justify-center">
+                    <div class="flex gap-x-4">
+                        <item *ngFor="let product of chunk" [product]="product"></item>
+                    </div>
                 </div>
-            </div>
-        </c-carousel-item>
-    </c-carousel-inner>
-    <c-carousel-control [routerLink] caption="Previous" direction="prev" class="previous"></c-carousel-control>
-    <c-carousel-control [routerLink] caption="Next" direction="next" class="next"></c-carousel-control>
-</c-carousel>
+            </c-carousel-item>
+        </c-carousel-inner>
+        <c-carousel-control [routerLink] caption="Previous" direction="prev" class="previous"></c-carousel-control>
+        <c-carousel-control [routerLink] caption="Next" direction="next" class="next"></c-carousel-control>
+    </c-carousel>
+</ng-container>
+
+<div class="max-w-[1104px] mx-auto my-6" *ngFor="let product of (products$ | async); let i = index">
+    <h5 *ngFor="let p of product">{{ p | json }}</h5>
+</div>
 
 <ng-template #loading>
     <div class="h-[300px] bg-blue-400 border-blue-800 border flex justify-center items-center">

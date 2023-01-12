@@ -15,6 +15,8 @@ import { ProductDetailComponent } from '../../pages/product-detail/product-detai
 import { HomeComponent } from './home.component';
 import { StoreModule } from '@ngrx/store';
 import * as fromHome from './reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { HomeEffects } from './store/home.effects';
 
 @NgModule({
     declarations: [
@@ -45,9 +47,10 @@ import * as fromHome from './reducers';
         FormModule,
         HttpClientModule,
         ReactiveFormsModule,
-        StoreModule.forFeature(fromHome.homeFeatureKey, fromHome.reducers, { metaReducers: fromHome.metaReducers }),
+        EffectsModule.forFeature([HomeEffects]),
+        StoreModule.forFeature(fromHome.homeFeatureKey, fromHome.homeReducers),
     ],
     exports: [RouterModule],
-    providers: [DeleteService]
+    providers: [DeleteService, HomeEffects]
 })
 export class HomeModule {}
