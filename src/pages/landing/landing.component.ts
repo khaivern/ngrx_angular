@@ -31,6 +31,8 @@ export class LandingComponent implements OnInit {
     }
 
     private fetchProducts() {
+        // this.store.dispatch(HomeActions.loadProducts());
+
         this.store
             .select(selectAreProductsLoaded)
             .pipe(filter((loaded) => !loaded))

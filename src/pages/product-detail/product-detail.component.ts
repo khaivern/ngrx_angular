@@ -1,8 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Update } from '@ngrx/entity';
+import { Store } from '@ngrx/store';
 import { map, Observable, of } from 'rxjs';
+import { selectProductByID } from '../../app/home/store/home.selectors';
+import HomeActions from '../../app/home/store/home.types';
+import { AppState } from '../../app/reducers';
 import { Product } from '../../models/product';
 
 @Component({
@@ -11,20 +16,23 @@ import { Product } from '../../models/product';
     styleUrls: ['./product-detail.component.scss'],
 })
 export class ProductDetailComponent implements OnInit {
-    product$: Observable<Product> = of();
+    product$: Observable<Product | null> = of();
     id = this.route.snapshot.params['id'];
     editForm: FormGroup = new FormGroup({});
     createForm: FormGroup = new FormGroup({});
 
-    constructor(private http: HttpClient, private route: ActivatedRoute) {}
+    constructor(private http: HttpClient, private route: ActivatedRoute, private store: Store<AppState>, private router: Router) {}
 
     ngOnInit(): void {
         this.buildForms();
-        this.product$ = this.http
-            .get<{ result: Product }>(
-                'http://localhost:8000/api/products/' + this.id
-            )
-            .pipe(map((response) => response.result));
+        this.store.dispatch(HomeActions.getProductByID({ id: this.id }))
+        this.product$ = this.store.select(selectProductByID);
+
+        // this.product$ = this.http
+        //     .get<{ result: Product }>(
+        //         'http://localhost:8000/api/products/' + this.id
+        //     )
+        //     .pipe(map((response) => response.result));
     }
 
     buildForms(): void {
@@ -42,18 +50,28 @@ export class ProductDetailComponent implements OnInit {
     }
 
     handleEdit(): void {
-        this.http
-            .put('http://localhost:8000/api/products/' + this.id, {
-                product: this.editForm.value,
-            })
-            .subscribe((resp) => console.log(resp));
+        const update: Update<Product> = {
+            id: this.id,
+            changes: this.editForm.value,
+        };
+
+        this.store.dispatch(HomeActions.updateProduct({ update }));
+        this.router.navigate(['/landing']);
+        // this.http
+        //     .put('http://localhost:8000/api/products/' + this.id, {
+        //         product: this.editForm.value,
+        //     })
+        //     .subscribe((resp) => console.log(resp));
     }
 
     handleCreate(): void {
-        this.http
-            .post('http://localhost:8000/api/products', {
-                product: this.createForm.value,
-            })
-            .subscribe((resp) => console.log(resp));
+        this.store.dispatch(HomeActions.createProduct({ product: {...this.createForm.value,} }));
+        this.router.navigate(['/landing']);
+
+        // this.http
+        //     .post('http://localhost:8000/api/products', {
+        //         product: this.createForm.value,
+        //     })
+        //     .subscribe((resp) => console.log(resp));
     }
 }

@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { selectProd } from '../../app/home/store/home.selectors';
+import { selectProductChunks } from '../../app/home/store/home.selectors';
+import HomeActions from '../../app/home/store/home.types';
 import { AppState } from '../../app/reducers';
 import { Product } from '../../models/product';
 
@@ -10,13 +11,21 @@ import { Product } from '../../models/product';
     templateUrl: './products.component.html',
     styleUrls: ['./products.component.scss'],
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
     @Input() heading = '';
     products$?: Observable<Product[][]> = of([]);
 
     constructor(private store: Store<AppState>) {}
 
     ngOnInit(): void {
-        this.products$ = this.store.select(selectProd);
+        this.products$ = this.store.select(selectProductChunks);
+    }
+
+    ngOnDestroy(): void {
+        this.store.dispatch(HomeActions.clearProducts());
+    }
+
+    deleteProduct(id: string) {
+        this.store.dispatch(HomeActions.deleteProduct({ id }));
     }
 }

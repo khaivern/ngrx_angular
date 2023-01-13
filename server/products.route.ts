@@ -3,7 +3,7 @@ import { Product } from '../src/models/product';
 import DUMMY_DATA from './dummy-data';
 
 let products = Object.values(DUMMY_DATA);
-const delay = 1000; // how long to wait ?
+const delay = 5000; // how long to wait ?
 
 export function getAllProducts(req: Request, res: Response): void {
     setTimeout(() => {

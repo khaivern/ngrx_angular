@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducers, metaReducers } from './reducers';
 import { EffectsModule } from '@ngrx/effects';
+import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 
 @NgModule({
     declarations: [AppComponent],
@@ -26,6 +27,10 @@ import { EffectsModule } from '@ngrx/effects';
         }),
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
         EffectsModule.forRoot([]),
+        // StoreRouterConnectingModule.forRoot({
+        //     stateKey: 'router',
+        //     routerState: RouterState.Minimal,
+        // }),
     ],
     providers: [],
     bootstrap: [AppComponent],
