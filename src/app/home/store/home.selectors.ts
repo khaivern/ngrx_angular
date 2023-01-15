@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromHome from '../reducers';
 
-export const selectHomeState = createFeatureSelector<fromHome.HomeState>('home');
+export const selectHomeState = createFeatureSelector<fromHome.HomeState>(fromHome.homeFeatureKey);
 
 export const selectAllProducts = createSelector(selectHomeState, fromHome.selectAll);
 

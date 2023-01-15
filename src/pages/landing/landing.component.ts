@@ -19,9 +19,9 @@ export class LandingComponent implements OnInit {
 
     ngOnInit(): void {
         this.fetchProducts();
-        this.deleteService.listUpdated$.subscribe(() => {
-            this.fetchProducts();
-        });
+        // this.deleteService.listUpdated$.subscribe(() => {
+        //     this.fetchProducts();
+        // });
 
         // this.products$ = this.deleteService.listUpdated$.pipe(
         //     switchMap(() => {

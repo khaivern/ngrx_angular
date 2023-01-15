@@ -22,7 +22,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.store.dispatch(HomeActions.clearProducts());
+        // this.store.dispatch(HomeActions.clearProducts());
     }
 
     deleteProduct(id: string) {
