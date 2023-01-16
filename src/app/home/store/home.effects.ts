@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatMap, map, mergeMap, switchMap } from 'rxjs';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { concatMap, filter, map, mergeMap, switchMap } from 'rxjs';
+import { selectProductDetailByID } from 'src/app/home/store/home.selectors';
+import { AppState } from 'src/app/reducers';
 import { Product } from '../../../models/product';
 import HomeActions from './home.types';
 
@@ -26,16 +29,16 @@ export class HomeEffects {
     getProductByID$ = createEffect(() => {
         return this.actions$.pipe(
             ofType(HomeActions.getProductByID),
-            switchMap(({ id }) => {
+            concatLatestFrom(({ id }) => this.store.select(selectProductDetailByID(id))),
+            filter(([_action, detail]) => Boolean(detail) === false),
+            mergeMap(([{ id }]) => {
                 return this.http
-                    .get<{ result: Product }>(
-                        `http://localhost:8000/api/products/${id}`
-                    )
-                    .pipe(map((resp) => resp.result));
+                    .get<{ result: Product }>(`http://localhost:8000/api/products/${id}`)
+                    .pipe(map(resp => resp.result));
             }),
-            map((product) => {
+            map(product => {
                 return HomeActions.productLoaded({ product });
-            })
+            }),
         );
     });
 
@@ -86,5 +89,5 @@ export class HomeEffects {
         { dispatch: false }
     );
 
-    constructor(private actions$: Actions, private http: HttpClient) {}
+    constructor(private actions$: Actions, private http: HttpClient, private store: Store<AppState>) {}
 }

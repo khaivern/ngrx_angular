@@ -11,7 +11,7 @@
             <c-carousel-item *ngFor="let chunk of products">
                 <div class="flex justify-center">
                     <div class="flex gap-x-4">
-                        <item *ngFor="let product of chunk" [product]="product"></item>
+                        <item *ngFor="let product of chunk" [product]="product" [prefetchMode]="['hover']" (prefetch)="prefetch(product.id)"></item>
                     </div>
                 </div>
             </c-carousel-item>
@@ -25,7 +25,7 @@
 
 <div class="grid grid-cols-4 gap-[1rem] mb-[1rem] max-w-[1104px] mx-auto" *ngFor="let chunk of (products$ | async)">
     <div *ngFor="let product of chunk" class="h-[300px] border-2 bg-green-400 border-green-600 rounded-lg flex justify-center items-center col-span-1">
-        <div class="flex flex-col items-center gap-x-3 cursor-pointer" (click)="deleteProduct(product.id)">
+        <div class="flex flex-col items-center cursor-pointer gap-x-3" (click)="deleteProduct(product.id)">
             <h3>{{ product.title }} ({{ product.id }})</h3>
             <h5 class="text-gray-600 line-through">RM{{ product.price }}</h5>
             <h3>RM{{ product.price * (100 - product.discount) / 100 | number: '.2-2' }}</h3>

@@ -7,7 +7,7 @@ export const homeFeatureKey = 'home';
 
 export interface HomeState extends EntityState<Product> {
     areProductsLoaded: boolean;
-    selectedProduct: Product | null;
+    productDetails: Product[];
 }
 
 const homeAdapter = createEntityAdapter<Product>({
@@ -16,7 +16,7 @@ const homeAdapter = createEntityAdapter<Product>({
 
 const initialHomeState: HomeState = homeAdapter.getInitialState({
     areProductsLoaded: false,
-    selectedProduct: null,
+    productDetails: [],
 });
 
 export const homeReducers = createReducer(
@@ -31,7 +31,7 @@ export const homeReducers = createReducer(
         return homeAdapter.removeAll({ ...state, areProductsLoaded: false });
     }),
     on(HomeActions.productLoaded, (state, { product }) => {
-        return { ...state, selectedProduct: product };
+        return { ...state, productDetails: [...state.productDetails, product] };
     }),
     on(HomeActions.updateProduct, (state, { update }) => {
         return homeAdapter.updateOne(

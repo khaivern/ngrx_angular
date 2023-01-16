@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { map, Observable, of } from 'rxjs';
-import { selectProductByID } from '../../app/home/store/home.selectors';
+import { selectProductDetailByID } from '../../app/home/store/home.selectors';
 import HomeActions from '../../app/home/store/home.types';
 import { AppState } from '../../app/reducers';
 import { Product } from '../../models/product';
@@ -21,12 +21,17 @@ export class ProductDetailComponent implements OnInit {
     editForm: FormGroup = new FormGroup({});
     createForm: FormGroup = new FormGroup({});
 
-    constructor(private http: HttpClient, private route: ActivatedRoute, private store: Store<AppState>, private router: Router) {}
+    constructor(
+        private http: HttpClient,
+        private route: ActivatedRoute,
+        private store: Store<AppState>,
+        private router: Router,
+    ) {}
 
     ngOnInit(): void {
         this.buildForms();
-        this.store.dispatch(HomeActions.getProductByID({ id: this.id }))
-        this.product$ = this.store.select(selectProductByID);
+        this.store.dispatch(HomeActions.getProductByID({ id: this.id }));
+        this.product$ = this.store.select(selectProductDetailByID(this.id));
 
         // this.product$ = this.http
         //     .get<{ result: Product }>(
@@ -65,7 +70,7 @@ export class ProductDetailComponent implements OnInit {
     }
 
     handleCreate(): void {
-        this.store.dispatch(HomeActions.createProduct({ product: {...this.createForm.value,} }));
+        this.store.dispatch(HomeActions.createProduct({ product: { ...this.createForm.value } }));
         this.router.navigate(['/landing']);
 
         // this.http

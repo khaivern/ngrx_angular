@@ -17,6 +17,7 @@ import { StoreModule } from '@ngrx/store';
 import * as fromHome from './reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { HomeEffects } from './store/home.effects';
+import { PrefetchDirective } from 'src/directives/prefetch.directive';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { HomeEffects } from './store/home.effects';
         FooterComponent,
         HeaderComponent,
         ProductDetailComponent,
+        PrefetchDirective,
     ],
     imports: [
         CommonModule,

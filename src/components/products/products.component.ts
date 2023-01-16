@@ -28,4 +28,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     deleteProduct(id: string) {
         this.store.dispatch(HomeActions.deleteProduct({ id }));
     }
+
+    prefetch(productID: string) {
+        this.store.dispatch(HomeActions.getProductByID({ id: productID }));
+    }
 }

@@ -14,6 +14,12 @@ export const selectProductChunks = createSelector(selectAllProducts, (products) 
     return productsChunk;
 });
 
-export const selectProductByID = createSelector(selectHomeState, state => state.selectedProduct);
+export const selectProductDetails = createSelector(selectHomeState, state => state.productDetails);
+
+export const selectProductDetailByID = (id: string) => {
+    return createSelector(selectProductDetails, (productDetails) => {
+        return productDetails.find(d => d.id === id) || null;
+    })
+ }
 
 export const selectAreProductsLoaded = createSelector(selectHomeState, home => home.areProductsLoaded);
